@@ -25,7 +25,13 @@ public class OrderController {
     }
     @GetMapping(value = "/consumer/payment/get/{id}")
     public CommonResult<Payment> getPayment(@PathVariable("id") Long id){
-        String i=id.toString();
-        return restTemplate.postForObject("http://localhost:8001/payment/get/1","",CommonResult.class);
+        CommonResult result =null;
+        String req="/payment/get/"+id;
+        try{
+             result = restTemplate.getForObject(PAYMENT_URL+req,CommonResult.class);
+        }catch (Exception a){
+            log.error(a.getMessage());
+        }
+        return result;
     }
 }
